@@ -27,6 +27,9 @@ import { Route as AppPayrollRouteImport } from './routes/app/payroll'
 import { Route as AppProfitabilityRouteImport } from './routes/app/profitability'
 import { Route as AppScheduleRouteImport } from './routes/app/schedule'
 import { Route as PlatformIndexRouteImport } from './routes/platform/index'
+import { Route as PlatformAdminsRouteImport } from './routes/platform/admins'
+import { Route as PlatformCompaniesRouteImport } from './routes/platform/companies'
+import { Route as PlatformPlansRouteImport } from './routes/platform/plans'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -118,6 +121,21 @@ const PlatformIndexRoute = PlatformIndexRouteImport.update({
   path: '/',
   getParentRoute: () => PlatformRouteRoute,
 } as any)
+const PlatformAdminsRoute = PlatformAdminsRouteImport.update({
+  id: '/admins',
+  path: '/admins',
+  getParentRoute: () => PlatformRouteRoute,
+} as any)
+const PlatformCompaniesRoute = PlatformCompaniesRouteImport.update({
+  id: '/companies',
+  path: '/companies',
+  getParentRoute: () => PlatformRouteRoute,
+} as any)
+const PlatformPlansRoute = PlatformPlansRouteImport.update({
+  id: '/plans',
+  path: '/plans',
+  getParentRoute: () => PlatformRouteRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -136,6 +154,9 @@ export interface FileRoutesByFullPath {
   '/app/payroll': typeof AppPayrollRoute
   '/app/profitability': typeof AppProfitabilityRoute
   '/app/schedule': typeof AppScheduleRoute
+  '/platform/admins': typeof PlatformAdminsRoute
+  '/platform/companies': typeof PlatformCompaniesRoute
+  '/platform/plans': typeof PlatformPlansRoute
   '/app/': typeof AppIndexRoute
   '/platform/': typeof PlatformIndexRoute
 }
@@ -154,6 +175,9 @@ export interface FileRoutesByTo {
   '/app/payroll': typeof AppPayrollRoute
   '/app/profitability': typeof AppProfitabilityRoute
   '/app/schedule': typeof AppScheduleRoute
+  '/platform/admins': typeof PlatformAdminsRoute
+  '/platform/companies': typeof PlatformCompaniesRoute
+  '/platform/plans': typeof PlatformPlansRoute
   '/app': typeof AppIndexRoute
   '/platform': typeof PlatformIndexRoute
 }
@@ -175,6 +199,9 @@ export interface FileRoutesById {
   '/app/payroll': typeof AppPayrollRoute
   '/app/profitability': typeof AppProfitabilityRoute
   '/app/schedule': typeof AppScheduleRoute
+  '/platform/admins': typeof PlatformAdminsRoute
+  '/platform/companies': typeof PlatformCompaniesRoute
+  '/platform/plans': typeof PlatformPlansRoute
   '/app/': typeof AppIndexRoute
   '/platform/': typeof PlatformIndexRoute
 }
@@ -197,6 +224,9 @@ export interface FileRouteTypes {
     | '/app/payroll'
     | '/app/profitability'
     | '/app/schedule'
+    | '/platform/admins'
+    | '/platform/companies'
+    | '/platform/plans'
     | '/app/'
     | '/platform/'
   fileRoutesByTo: FileRoutesByTo
@@ -215,6 +245,9 @@ export interface FileRouteTypes {
     | '/app/payroll'
     | '/app/profitability'
     | '/app/schedule'
+    | '/platform/admins'
+    | '/platform/companies'
+    | '/platform/plans'
     | '/app'
     | '/platform'
   id:
@@ -235,6 +268,9 @@ export interface FileRouteTypes {
     | '/app/payroll'
     | '/app/profitability'
     | '/app/schedule'
+    | '/platform/admins'
+    | '/platform/companies'
+    | '/platform/plans'
     | '/app/'
     | '/platform/'
   fileRoutesById: FileRoutesById
@@ -374,6 +410,27 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof PlatformIndexRouteImport
       parentRoute: typeof PlatformRouteRoute
     }
+    '/platform/admins': {
+      id: '/platform/admins'
+      path: '/admins'
+      fullPath: '/platform/admins'
+      preLoaderRoute: typeof PlatformAdminsRouteImport
+      parentRoute: typeof PlatformRouteRoute
+    }
+    '/platform/companies': {
+      id: '/platform/companies'
+      path: '/companies'
+      fullPath: '/platform/companies'
+      preLoaderRoute: typeof PlatformCompaniesRouteImport
+      parentRoute: typeof PlatformRouteRoute
+    }
+    '/platform/plans': {
+      id: '/platform/plans'
+      path: '/plans'
+      fullPath: '/platform/plans'
+      preLoaderRoute: typeof PlatformPlansRouteImport
+      parentRoute: typeof PlatformRouteRoute
+    }
   }
 }
 
@@ -414,10 +471,16 @@ const AppRouteRouteWithChildren = AppRouteRoute._addFileChildren(
 )
 
 interface PlatformRouteRouteChildren {
+  PlatformAdminsRoute: typeof PlatformAdminsRoute
+  PlatformCompaniesRoute: typeof PlatformCompaniesRoute
+  PlatformPlansRoute: typeof PlatformPlansRoute
   PlatformIndexRoute: typeof PlatformIndexRoute
 }
 
 const PlatformRouteRouteChildren: PlatformRouteRouteChildren = {
+  PlatformAdminsRoute: PlatformAdminsRoute,
+  PlatformCompaniesRoute: PlatformCompaniesRoute,
+  PlatformPlansRoute: PlatformPlansRoute,
   PlatformIndexRoute: PlatformIndexRoute,
 }
 
