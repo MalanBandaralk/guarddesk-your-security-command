@@ -1,24 +1,40 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, Link } from "@tanstack/react-router";
+import { ArrowRight, BadgeCheck, BarChart3, CheckCircle2, Clock3, MapPin, Menu, Radio, ShieldCheck, UsersRound } from "lucide-react";
+import { BrandMark } from "@/components/brand-mark";
+import { Button } from "@/components/ui/button";
 
-// No head() here: the home route inherits title/description/og/twitter from
-// __root.tsx, and ships no og:image so serve-time hosting can inject the
-// project's social preview (explicit og:image or latest screenshot).
 export const Route = createFileRoute("/")({
+  head: () => ({ meta: [
+    { title: "GuardDesk | Security Operations Platform" },
+    { name: "description", content: "Manage guards, sites, attendance, patrols, incidents, payroll and billing in one secure platform." },
+    { property: "og:title", content: "GuardDesk | Security Operations Platform" },
+    { property: "og:description", content: "Know who is deployed, where they should be, and whether every contract is profitable." },
+    { property: "og:type", content: "website" },
+    { name: "twitter:card", content: "summary_large_image" },
+  ] }),
   component: Index,
 });
 
-// IMPORTANT: Replace this placeholder. See ./README.md for routing conventions.
 function Index() {
   return (
-    <div
-      className="flex min-h-screen items-center justify-center"
-      style={{ backgroundColor: "#fcfbf8" }}
-    >
-      <img
-        data-lovable-blank-page-placeholder="REMOVE_THIS"
-        src="https://cdn.gpteng.co/blank-app-v1.svg"
-        alt="Your app will live here!"
-      />
+    <div className="min-h-screen bg-background">
+      <header className="sticky top-0 z-30 border-b bg-background/95 backdrop-blur"><div className="mx-auto flex h-16 max-w-7xl items-center px-5 lg:px-8"><BrandMark /><nav className="ml-auto hidden items-center gap-8 text-sm text-muted-foreground md:flex"><a href="#platform">Platform</a><a href="#workflow">Workflow</a><a href="#security">Security</a></nav><div className="ml-6 flex items-center gap-2"><Button variant="ghost" asChild className="hidden sm:inline-flex"><Link to="/auth">Sign in</Link></Button><Button asChild><Link to="/auth">Start workspace <ArrowRight /></Link></Button><Button variant="ghost" size="icon" className="md:hidden" aria-label="Open menu"><Menu /></Button></div></div></header>
+      <main>
+        <section className="border-b"><div className="mx-auto grid max-w-7xl gap-12 px-5 py-16 lg:grid-cols-[1.05fr_.95fr] lg:px-8 lg:py-24"><div className="self-center"><div className="mb-5 inline-flex items-center gap-2 rounded-full border bg-success/5 px-3 py-1 text-xs font-semibold text-success"><span className="size-1.5 rounded-full bg-success" />Built for security operations</div><h1 className="max-w-3xl text-4xl font-semibold leading-tight sm:text-5xl lg:text-6xl">Run every security operation from one desk.</h1><p className="mt-6 max-w-2xl text-lg leading-8 text-muted-foreground">Know who is deployed, where they should be, whether they showed up, what happened, what the client was billed, and whether the contract is profitable.</p><div className="mt-8 flex flex-wrap gap-3"><Button size="lg" asChild><Link to="/auth">Create your workspace <ArrowRight /></Link></Button><Button size="lg" variant="outline" asChild><a href="#platform">Explore the platform</a></Button></div><div className="mt-8 flex flex-wrap gap-x-6 gap-y-2 text-sm text-muted-foreground"><span className="flex items-center gap-2"><CheckCircle2 className="size-4 text-success" />Sri Lanka-ready</span><span className="flex items-center gap-2"><CheckCircle2 className="size-4 text-success" />Configurable rules</span><span className="flex items-center gap-2"><CheckCircle2 className="size-4 text-success" />Secure tenant isolation</span></div></div><OperationsPreview /></div></section>
+        <section id="platform" className="border-b bg-muted/30 py-20"><div className="mx-auto max-w-7xl px-5 lg:px-8"><p className="text-sm font-semibold text-primary">One operational truth</p><h2 className="mt-2 max-w-2xl text-3xl font-semibold">From contract to proof of service</h2><div className="mt-10 grid gap-px overflow-hidden rounded-lg border bg-border md:grid-cols-2 lg:grid-cols-4">{[
+          [UsersRound,"Deploy with confidence","Build guard rosters around sites, posts, skills and availability."],
+          [MapPin,"Prove attendance","Verify arrival and departure against configured site geofences."],
+          [Radio,"Record field activity","Capture patrol checkpoints, incidents and daily reports as work happens."],
+          [BarChart3,"Know your margin","Connect approved work to payroll, invoices, expenses and profitability."],
+        ].map(([Icon,title,copy]) => { const FeatureIcon = Icon as typeof UsersRound; return <article key={String(title)} className="bg-card p-6"><FeatureIcon className="size-5 text-primary" /><h3 className="mt-5 font-semibold">{String(title)}</h3><p className="mt-2 text-sm leading-6 text-muted-foreground">{String(copy)}</p></article>; })}</div></div></section>
+        <section id="workflow" className="py-20"><div className="mx-auto max-w-7xl px-5 lg:px-8"><div className="grid gap-12 lg:grid-cols-[.7fr_1.3fr]"><div><p className="text-sm font-semibold text-primary">Built around the work</p><h2 className="mt-2 text-3xl font-semibold">Connected, not complicated</h2><p className="mt-4 text-muted-foreground">GuardDesk follows the way a professional security company actually operates. Information moves forward without being entered twice.</p></div><ol className="grid gap-4 sm:grid-cols-2">{["Clients & contracts","Sites & posts","Scheduling & deployment","Attendance proof","Patrols & incidents","Payroll & billing"].map((item,index) => <li key={item} className="flex items-center gap-4 border-b py-4"><span className="grid size-8 shrink-0 place-items-center rounded-full bg-primary/10 text-xs font-semibold text-primary">{index+1}</span><span className="font-medium">{item}</span></li>)}</ol></div></div></section>
+        <section id="security" className="bg-foreground py-20 text-background"><div className="mx-auto grid max-w-7xl gap-10 px-5 lg:grid-cols-2 lg:px-8"><div><ShieldCheck className="size-8 text-success" /><h2 className="mt-5 text-3xl font-semibold">Trust is built into the workflow.</h2><p className="mt-4 max-w-xl text-background/70">Company data is isolated, sensitive actions are recorded, and access follows each person’s role. Confidential documents remain private.</p></div><div className="grid gap-4 sm:grid-cols-2">{["Tenant-isolated access","Role-based permissions","Immutable correction history","Private document storage"].map((item) => <div key={item} className="flex items-center gap-3 border-b border-background/15 py-4"><BadgeCheck className="size-5 text-success" /><span className="text-sm font-medium">{item}</span></div>)}</div></div></section>
+      </main>
+      <footer className="border-t py-8"><div className="mx-auto flex max-w-7xl flex-col gap-4 px-5 text-sm text-muted-foreground sm:flex-row sm:items-center sm:justify-between lg:px-8"><BrandMark /><p>Professional security operations, connected.</p></div></footer>
     </div>
   );
+}
+
+function OperationsPreview() {
+  return <div className="overflow-hidden rounded-lg border bg-card shadow-xl"><div className="flex h-12 items-center border-b px-4"><div className="flex gap-1.5"><span className="size-2.5 rounded-full bg-destructive/60" /><span className="size-2.5 rounded-full bg-warning" /><span className="size-2.5 rounded-full bg-success/60" /></div><span className="mx-auto text-xs font-medium text-muted-foreground">Live operations — today</span></div><div className="grid grid-cols-3 border-b"><div className="p-4"><p className="text-xs text-muted-foreground">On duty</p><p className="mt-1 text-2xl font-semibold">42</p></div><div className="border-x p-4"><p className="text-xs text-muted-foreground">Sites covered</p><p className="mt-1 text-2xl font-semibold">18</p></div><div className="p-4"><p className="text-xs text-muted-foreground">Needs attention</p><p className="mt-1 text-2xl font-semibold text-warning-foreground">3</p></div></div><div className="p-4"><div className="mb-3 flex items-center justify-between"><p className="text-sm font-semibold">Current deployments</p><Clock3 className="size-4 text-muted-foreground" /></div>{[["Ceylon Retail — Head Office","3 / 3","Covered"],["Katunayake EPZ — Gate A","4 / 4","Covered"],["Heritage Hotel — Main Entrance","1 / 2","Attention"]].map(([site,count,status]) => <div key={site} className="flex items-center gap-3 border-t py-3"><span className={`size-2 rounded-full ${status === "Covered" ? "bg-success" : "bg-warning"}`} /><div className="min-w-0 flex-1"><p className="truncate text-sm font-medium">{site}</p><p className="text-xs text-muted-foreground">{count} guards</p></div><span className="text-xs text-muted-foreground">{status}</span></div>)}</div></div>;
 }

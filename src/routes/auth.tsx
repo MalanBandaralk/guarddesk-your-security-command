@@ -1,5 +1,5 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { useEffect, useState } from "react";
+import { useEffect, useState, type FormEvent } from "react";
 import { ArrowLeft, LoaderCircle } from "lucide-react";
 import { toast } from "sonner";
 import { BrandMark } from "@/components/brand-mark";
@@ -30,14 +30,17 @@ function AuthPage() {
   const [password, setPassword] = useState("");
   useEffect(() => { if (user) window.location.replace("/app"); }, [user]);
 
-  const submit = async (event: React.FormEvent) => {
+  const submit = async (event: FormEvent) => {
     event.preventDefault();
     setBusy(true);
     const result = mode === "signin"
       ? await supabase.auth.signInWithPassword({ email, password })
       : await supabase.auth.signUp({ email, password, options: { data: { full_name: fullName } } });
     setBusy(false);
-    if (result.error) return toast.error(result.error.message);
+    if (result.error) {
+      toast.error(result.error.message);
+      return;
+    }
     if (mode === "signup" && !result.data.session) toast.success("Check your email to confirm your account.");
     else window.location.href = "/app";
   };
