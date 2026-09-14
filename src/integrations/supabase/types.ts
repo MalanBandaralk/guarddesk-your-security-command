@@ -351,6 +351,79 @@ export type Database = {
           },
         ]
       }
+      daily_reports: {
+        Row: {
+          attendance_summary: Json
+          created_at: string
+          id: string
+          incident_summary: Json
+          organization_id: string
+          patrol_summary: Json
+          prepared_by: string | null
+          report_date: string
+          shift_id: string | null
+          site_id: string
+          status: string
+          submitted_at: string | null
+          summary: string
+          updated_at: string
+        }
+        Insert: {
+          attendance_summary?: Json
+          created_at?: string
+          id?: string
+          incident_summary?: Json
+          organization_id: string
+          patrol_summary?: Json
+          prepared_by?: string | null
+          report_date: string
+          shift_id?: string | null
+          site_id: string
+          status?: string
+          submitted_at?: string | null
+          summary?: string
+          updated_at?: string
+        }
+        Update: {
+          attendance_summary?: Json
+          created_at?: string
+          id?: string
+          incident_summary?: Json
+          organization_id?: string
+          patrol_summary?: Json
+          prepared_by?: string | null
+          report_date?: string
+          shift_id?: string | null
+          site_id?: string
+          status?: string
+          submitted_at?: string | null
+          summary?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "daily_reports_organization_id_fkey"
+            columns: ["organization_id"]
+            isOneToOne: false
+            referencedRelation: "organizations"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "daily_reports_shift_id_fkey"
+            columns: ["shift_id"]
+            isOneToOne: false
+            referencedRelation: "shifts"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "daily_reports_site_id_fkey"
+            columns: ["site_id"]
+            isOneToOne: false
+            referencedRelation: "sites"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       document_types: {
         Row: {
           created_at: string
@@ -382,6 +455,126 @@ export type Database = {
             columns: ["organization_id"]
             isOneToOne: false
             referencedRelation: "organizations"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      equipment: {
+        Row: {
+          asset_code: string
+          category: string
+          created_at: string
+          id: string
+          name: string
+          notes: string | null
+          organization_id: string
+          purchase_date: string | null
+          serial_number: string | null
+          status: string
+          updated_at: string
+        }
+        Insert: {
+          asset_code: string
+          category: string
+          created_at?: string
+          id?: string
+          name: string
+          notes?: string | null
+          organization_id: string
+          purchase_date?: string | null
+          serial_number?: string | null
+          status?: string
+          updated_at?: string
+        }
+        Update: {
+          asset_code?: string
+          category?: string
+          created_at?: string
+          id?: string
+          name?: string
+          notes?: string | null
+          organization_id?: string
+          purchase_date?: string | null
+          serial_number?: string | null
+          status?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "equipment_organization_id_fkey"
+            columns: ["organization_id"]
+            isOneToOne: false
+            referencedRelation: "organizations"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      expenses: {
+        Row: {
+          amount: number
+          category: string
+          contract_id: string | null
+          created_at: string
+          created_by: string | null
+          description: string
+          expense_date: string
+          id: string
+          organization_id: string
+          receipt_path: string | null
+          site_id: string | null
+          status: string
+          updated_at: string
+        }
+        Insert: {
+          amount: number
+          category: string
+          contract_id?: string | null
+          created_at?: string
+          created_by?: string | null
+          description: string
+          expense_date: string
+          id?: string
+          organization_id: string
+          receipt_path?: string | null
+          site_id?: string | null
+          status?: string
+          updated_at?: string
+        }
+        Update: {
+          amount?: number
+          category?: string
+          contract_id?: string | null
+          created_at?: string
+          created_by?: string | null
+          description?: string
+          expense_date?: string
+          id?: string
+          organization_id?: string
+          receipt_path?: string | null
+          site_id?: string | null
+          status?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "expenses_contract_id_fkey"
+            columns: ["contract_id"]
+            isOneToOne: false
+            referencedRelation: "contracts"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "expenses_organization_id_fkey"
+            columns: ["organization_id"]
+            isOneToOne: false
+            referencedRelation: "organizations"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "expenses_site_id_fkey"
+            columns: ["site_id"]
+            isOneToOne: false
+            referencedRelation: "sites"
             referencedColumns: ["id"]
           },
         ]
@@ -521,6 +714,352 @@ export type Database = {
           },
         ]
       }
+      incidents: {
+        Row: {
+          category: string
+          created_at: string
+          description: string
+          guard_id: string | null
+          id: string
+          latitude: number | null
+          longitude: number | null
+          occurred_at: string
+          organization_id: string
+          photo_paths: string[]
+          post_id: string | null
+          reference: string
+          reported_by: string | null
+          resolution: string | null
+          resolved_at: string | null
+          severity: string
+          shift_id: string | null
+          site_id: string
+          status: string
+          title: string
+          updated_at: string
+        }
+        Insert: {
+          category?: string
+          created_at?: string
+          description: string
+          guard_id?: string | null
+          id?: string
+          latitude?: number | null
+          longitude?: number | null
+          occurred_at: string
+          organization_id: string
+          photo_paths?: string[]
+          post_id?: string | null
+          reference: string
+          reported_by?: string | null
+          resolution?: string | null
+          resolved_at?: string | null
+          severity?: string
+          shift_id?: string | null
+          site_id: string
+          status?: string
+          title: string
+          updated_at?: string
+        }
+        Update: {
+          category?: string
+          created_at?: string
+          description?: string
+          guard_id?: string | null
+          id?: string
+          latitude?: number | null
+          longitude?: number | null
+          occurred_at?: string
+          organization_id?: string
+          photo_paths?: string[]
+          post_id?: string | null
+          reference?: string
+          reported_by?: string | null
+          resolution?: string | null
+          resolved_at?: string | null
+          severity?: string
+          shift_id?: string | null
+          site_id?: string
+          status?: string
+          title?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "incidents_guard_id_fkey"
+            columns: ["guard_id"]
+            isOneToOne: false
+            referencedRelation: "guards"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "incidents_organization_id_fkey"
+            columns: ["organization_id"]
+            isOneToOne: false
+            referencedRelation: "organizations"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "incidents_post_id_fkey"
+            columns: ["post_id"]
+            isOneToOne: false
+            referencedRelation: "posts"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "incidents_shift_id_fkey"
+            columns: ["shift_id"]
+            isOneToOne: false
+            referencedRelation: "shifts"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "incidents_site_id_fkey"
+            columns: ["site_id"]
+            isOneToOne: false
+            referencedRelation: "sites"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      invoice_items: {
+        Row: {
+          amount: number
+          created_at: string
+          description: string
+          id: string
+          invoice_id: string
+          organization_id: string
+          quantity: number
+          source_id: string | null
+          source_type: string | null
+          unit_rate: number
+        }
+        Insert: {
+          amount?: number
+          created_at?: string
+          description: string
+          id?: string
+          invoice_id: string
+          organization_id: string
+          quantity?: number
+          source_id?: string | null
+          source_type?: string | null
+          unit_rate?: number
+        }
+        Update: {
+          amount?: number
+          created_at?: string
+          description?: string
+          id?: string
+          invoice_id?: string
+          organization_id?: string
+          quantity?: number
+          source_id?: string | null
+          source_type?: string | null
+          unit_rate?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "invoice_items_invoice_id_fkey"
+            columns: ["invoice_id"]
+            isOneToOne: false
+            referencedRelation: "invoices"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "invoice_items_organization_id_fkey"
+            columns: ["organization_id"]
+            isOneToOne: false
+            referencedRelation: "organizations"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      invoices: {
+        Row: {
+          client_id: string
+          contract_id: string | null
+          created_at: string
+          due_date: string
+          id: string
+          invoice_number: string
+          issue_date: string
+          notes: string | null
+          organization_id: string
+          service_period_end: string | null
+          service_period_start: string | null
+          status: string
+          subtotal: number
+          tax_amount: number
+          total: number
+          updated_at: string
+        }
+        Insert: {
+          client_id: string
+          contract_id?: string | null
+          created_at?: string
+          due_date: string
+          id?: string
+          invoice_number: string
+          issue_date: string
+          notes?: string | null
+          organization_id: string
+          service_period_end?: string | null
+          service_period_start?: string | null
+          status?: string
+          subtotal?: number
+          tax_amount?: number
+          total?: number
+          updated_at?: string
+        }
+        Update: {
+          client_id?: string
+          contract_id?: string | null
+          created_at?: string
+          due_date?: string
+          id?: string
+          invoice_number?: string
+          issue_date?: string
+          notes?: string | null
+          organization_id?: string
+          service_period_end?: string | null
+          service_period_start?: string | null
+          status?: string
+          subtotal?: number
+          tax_amount?: number
+          total?: number
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "invoices_client_id_fkey"
+            columns: ["client_id"]
+            isOneToOne: false
+            referencedRelation: "clients"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "invoices_contract_id_fkey"
+            columns: ["contract_id"]
+            isOneToOne: false
+            referencedRelation: "contracts"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "invoices_organization_id_fkey"
+            columns: ["organization_id"]
+            isOneToOne: false
+            referencedRelation: "organizations"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      leave_requests: {
+        Row: {
+          created_at: string
+          end_date: string
+          guard_id: string
+          id: string
+          leave_type_id: string
+          organization_id: string
+          reason: string | null
+          reviewed_at: string | null
+          reviewed_by: string | null
+          start_date: string
+          status: string
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          end_date: string
+          guard_id: string
+          id?: string
+          leave_type_id: string
+          organization_id: string
+          reason?: string | null
+          reviewed_at?: string | null
+          reviewed_by?: string | null
+          start_date: string
+          status?: string
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          end_date?: string
+          guard_id?: string
+          id?: string
+          leave_type_id?: string
+          organization_id?: string
+          reason?: string | null
+          reviewed_at?: string | null
+          reviewed_by?: string | null
+          start_date?: string
+          status?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "leave_requests_guard_id_fkey"
+            columns: ["guard_id"]
+            isOneToOne: false
+            referencedRelation: "guards"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "leave_requests_leave_type_id_fkey"
+            columns: ["leave_type_id"]
+            isOneToOne: false
+            referencedRelation: "leave_types"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "leave_requests_organization_id_fkey"
+            columns: ["organization_id"]
+            isOneToOne: false
+            referencedRelation: "organizations"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      leave_types: {
+        Row: {
+          active: boolean
+          annual_allowance_days: number | null
+          created_at: string
+          id: string
+          name: string
+          organization_id: string
+          paid: boolean
+        }
+        Insert: {
+          active?: boolean
+          annual_allowance_days?: number | null
+          created_at?: string
+          id?: string
+          name: string
+          organization_id: string
+          paid?: boolean
+        }
+        Update: {
+          active?: boolean
+          annual_allowance_days?: number | null
+          created_at?: string
+          id?: string
+          name?: string
+          organization_id?: string
+          paid?: boolean
+        }
+        Relationships: [
+          {
+            foreignKeyName: "leave_types_organization_id_fkey"
+            columns: ["organization_id"]
+            isOneToOne: false
+            referencedRelation: "organizations"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       notifications: {
         Row: {
           body: string | null
@@ -604,6 +1143,7 @@ export type Database = {
         Row: {
           country: string
           created_at: string
+          created_by: string | null
           currency_code: string
           id: string
           name: string
@@ -614,6 +1154,7 @@ export type Database = {
         Insert: {
           country?: string
           created_at?: string
+          created_by?: string | null
           currency_code?: string
           id?: string
           name: string
@@ -624,6 +1165,7 @@ export type Database = {
         Update: {
           country?: string
           created_at?: string
+          created_by?: string | null
           currency_code?: string
           id?: string
           name?: string
@@ -632,6 +1174,534 @@ export type Database = {
           updated_at?: string
         }
         Relationships: []
+      }
+      patrol_checkpoints: {
+        Row: {
+          created_at: string
+          geofence_radius_m: number
+          id: string
+          instructions: string | null
+          latitude: number | null
+          longitude: number | null
+          name: string
+          organization_id: string
+          route_id: string
+          sequence_number: number
+          verification_method: string
+        }
+        Insert: {
+          created_at?: string
+          geofence_radius_m?: number
+          id?: string
+          instructions?: string | null
+          latitude?: number | null
+          longitude?: number | null
+          name: string
+          organization_id: string
+          route_id: string
+          sequence_number: number
+          verification_method?: string
+        }
+        Update: {
+          created_at?: string
+          geofence_radius_m?: number
+          id?: string
+          instructions?: string | null
+          latitude?: number | null
+          longitude?: number | null
+          name?: string
+          organization_id?: string
+          route_id?: string
+          sequence_number?: number
+          verification_method?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "patrol_checkpoints_organization_id_fkey"
+            columns: ["organization_id"]
+            isOneToOne: false
+            referencedRelation: "organizations"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "patrol_checkpoints_route_id_fkey"
+            columns: ["route_id"]
+            isOneToOne: false
+            referencedRelation: "patrol_routes"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      patrol_routes: {
+        Row: {
+          active: boolean
+          created_at: string
+          expected_duration_minutes: number
+          frequency_minutes: number
+          id: string
+          name: string
+          organization_id: string
+          site_id: string
+          updated_at: string
+        }
+        Insert: {
+          active?: boolean
+          created_at?: string
+          expected_duration_minutes?: number
+          frequency_minutes?: number
+          id?: string
+          name: string
+          organization_id: string
+          site_id: string
+          updated_at?: string
+        }
+        Update: {
+          active?: boolean
+          created_at?: string
+          expected_duration_minutes?: number
+          frequency_minutes?: number
+          id?: string
+          name?: string
+          organization_id?: string
+          site_id?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "patrol_routes_organization_id_fkey"
+            columns: ["organization_id"]
+            isOneToOne: false
+            referencedRelation: "organizations"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "patrol_routes_site_id_fkey"
+            columns: ["site_id"]
+            isOneToOne: false
+            referencedRelation: "sites"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      patrol_runs: {
+        Row: {
+          completed_at: string | null
+          created_at: string
+          flags: string[]
+          guard_id: string
+          id: string
+          organization_id: string
+          route_id: string
+          shift_id: string | null
+          started_at: string | null
+          status: string
+          updated_at: string
+        }
+        Insert: {
+          completed_at?: string | null
+          created_at?: string
+          flags?: string[]
+          guard_id: string
+          id?: string
+          organization_id: string
+          route_id: string
+          shift_id?: string | null
+          started_at?: string | null
+          status?: string
+          updated_at?: string
+        }
+        Update: {
+          completed_at?: string | null
+          created_at?: string
+          flags?: string[]
+          guard_id?: string
+          id?: string
+          organization_id?: string
+          route_id?: string
+          shift_id?: string | null
+          started_at?: string | null
+          status?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "patrol_runs_guard_id_fkey"
+            columns: ["guard_id"]
+            isOneToOne: false
+            referencedRelation: "guards"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "patrol_runs_organization_id_fkey"
+            columns: ["organization_id"]
+            isOneToOne: false
+            referencedRelation: "organizations"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "patrol_runs_route_id_fkey"
+            columns: ["route_id"]
+            isOneToOne: false
+            referencedRelation: "patrol_routes"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "patrol_runs_shift_id_fkey"
+            columns: ["shift_id"]
+            isOneToOne: false
+            referencedRelation: "shifts"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      patrol_scans: {
+        Row: {
+          checkpoint_id: string
+          created_at: string
+          id: string
+          latitude: number | null
+          longitude: number | null
+          note: string | null
+          organization_id: string
+          patrol_run_id: string
+          photo_path: string | null
+          scanned_at: string
+          status: string
+          within_geofence: boolean | null
+        }
+        Insert: {
+          checkpoint_id: string
+          created_at?: string
+          id?: string
+          latitude?: number | null
+          longitude?: number | null
+          note?: string | null
+          organization_id: string
+          patrol_run_id: string
+          photo_path?: string | null
+          scanned_at?: string
+          status?: string
+          within_geofence?: boolean | null
+        }
+        Update: {
+          checkpoint_id?: string
+          created_at?: string
+          id?: string
+          latitude?: number | null
+          longitude?: number | null
+          note?: string | null
+          organization_id?: string
+          patrol_run_id?: string
+          photo_path?: string | null
+          scanned_at?: string
+          status?: string
+          within_geofence?: boolean | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "patrol_scans_checkpoint_id_fkey"
+            columns: ["checkpoint_id"]
+            isOneToOne: false
+            referencedRelation: "patrol_checkpoints"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "patrol_scans_organization_id_fkey"
+            columns: ["organization_id"]
+            isOneToOne: false
+            referencedRelation: "organizations"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "patrol_scans_patrol_run_id_fkey"
+            columns: ["patrol_run_id"]
+            isOneToOne: false
+            referencedRelation: "patrol_runs"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      pay_rules: {
+        Row: {
+          active: boolean
+          calculation_method: string
+          conditions: Json
+          created_at: string
+          id: string
+          name: string
+          organization_id: string
+          rate: number
+          rule_type: string
+          updated_at: string
+        }
+        Insert: {
+          active?: boolean
+          calculation_method: string
+          conditions?: Json
+          created_at?: string
+          id?: string
+          name: string
+          organization_id: string
+          rate?: number
+          rule_type: string
+          updated_at?: string
+        }
+        Update: {
+          active?: boolean
+          calculation_method?: string
+          conditions?: Json
+          created_at?: string
+          id?: string
+          name?: string
+          organization_id?: string
+          rate?: number
+          rule_type?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "pay_rules_organization_id_fkey"
+            columns: ["organization_id"]
+            isOneToOne: false
+            referencedRelation: "organizations"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      payments: {
+        Row: {
+          amount: number
+          created_at: string
+          id: string
+          invoice_id: string | null
+          method: string | null
+          notes: string | null
+          organization_id: string
+          payment_date: string
+          reference: string | null
+        }
+        Insert: {
+          amount: number
+          created_at?: string
+          id?: string
+          invoice_id?: string | null
+          method?: string | null
+          notes?: string | null
+          organization_id: string
+          payment_date: string
+          reference?: string | null
+        }
+        Update: {
+          amount?: number
+          created_at?: string
+          id?: string
+          invoice_id?: string | null
+          method?: string | null
+          notes?: string | null
+          organization_id?: string
+          payment_date?: string
+          reference?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "payments_invoice_id_fkey"
+            columns: ["invoice_id"]
+            isOneToOne: false
+            referencedRelation: "invoices"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "payments_organization_id_fkey"
+            columns: ["organization_id"]
+            isOneToOne: false
+            referencedRelation: "organizations"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      payroll_periods: {
+        Row: {
+          approved_at: string | null
+          approved_by: string | null
+          created_at: string
+          end_date: string
+          id: string
+          name: string
+          organization_id: string
+          start_date: string
+          status: string
+          updated_at: string
+        }
+        Insert: {
+          approved_at?: string | null
+          approved_by?: string | null
+          created_at?: string
+          end_date: string
+          id?: string
+          name: string
+          organization_id: string
+          start_date: string
+          status?: string
+          updated_at?: string
+        }
+        Update: {
+          approved_at?: string | null
+          approved_by?: string | null
+          created_at?: string
+          end_date?: string
+          id?: string
+          name?: string
+          organization_id?: string
+          start_date?: string
+          status?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "payroll_periods_organization_id_fkey"
+            columns: ["organization_id"]
+            isOneToOne: false
+            referencedRelation: "organizations"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      payroll_records: {
+        Row: {
+          calculation_details: Json
+          created_at: string
+          deductions: number
+          gross_pay: number
+          guard_id: string
+          id: string
+          net_pay: number
+          normal_hours: number
+          organization_id: string
+          overtime_hours: number
+          payroll_period_id: string
+          status: string
+          updated_at: string
+        }
+        Insert: {
+          calculation_details?: Json
+          created_at?: string
+          deductions?: number
+          gross_pay?: number
+          guard_id: string
+          id?: string
+          net_pay?: number
+          normal_hours?: number
+          organization_id: string
+          overtime_hours?: number
+          payroll_period_id: string
+          status?: string
+          updated_at?: string
+        }
+        Update: {
+          calculation_details?: Json
+          created_at?: string
+          deductions?: number
+          gross_pay?: number
+          guard_id?: string
+          id?: string
+          net_pay?: number
+          normal_hours?: number
+          organization_id?: string
+          overtime_hours?: number
+          payroll_period_id?: string
+          status?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "payroll_records_guard_id_fkey"
+            columns: ["guard_id"]
+            isOneToOne: false
+            referencedRelation: "guards"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "payroll_records_organization_id_fkey"
+            columns: ["organization_id"]
+            isOneToOne: false
+            referencedRelation: "organizations"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "payroll_records_payroll_period_id_fkey"
+            columns: ["payroll_period_id"]
+            isOneToOne: false
+            referencedRelation: "payroll_periods"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      post_orders: {
+        Row: {
+          active: boolean
+          content: string
+          created_at: string
+          created_by: string | null
+          effective_from: string
+          id: string
+          organization_id: string
+          post_id: string | null
+          site_id: string
+          title: string
+          updated_at: string
+          version: number
+        }
+        Insert: {
+          active?: boolean
+          content: string
+          created_at?: string
+          created_by?: string | null
+          effective_from?: string
+          id?: string
+          organization_id: string
+          post_id?: string | null
+          site_id: string
+          title: string
+          updated_at?: string
+          version?: number
+        }
+        Update: {
+          active?: boolean
+          content?: string
+          created_at?: string
+          created_by?: string | null
+          effective_from?: string
+          id?: string
+          organization_id?: string
+          post_id?: string | null
+          site_id?: string
+          title?: string
+          updated_at?: string
+          version?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "post_orders_organization_id_fkey"
+            columns: ["organization_id"]
+            isOneToOne: false
+            referencedRelation: "organizations"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "post_orders_post_id_fkey"
+            columns: ["post_id"]
+            isOneToOne: false
+            referencedRelation: "posts"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "post_orders_site_id_fkey"
+            columns: ["site_id"]
+            isOneToOne: false
+            referencedRelation: "sites"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       posts: {
         Row: {
@@ -916,6 +1986,96 @@ export type Database = {
             columns: ["organization_id"]
             isOneToOne: false
             referencedRelation: "organizations"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      subscription_plans: {
+        Row: {
+          active: boolean
+          code: string
+          created_at: string
+          currency_code: string
+          features: Json
+          id: string
+          limits: Json
+          monthly_price: number
+          name: string
+          updated_at: string
+        }
+        Insert: {
+          active?: boolean
+          code: string
+          created_at?: string
+          currency_code?: string
+          features?: Json
+          id?: string
+          limits?: Json
+          monthly_price: number
+          name: string
+          updated_at?: string
+        }
+        Update: {
+          active?: boolean
+          code?: string
+          created_at?: string
+          currency_code?: string
+          features?: Json
+          id?: string
+          limits?: Json
+          monthly_price?: number
+          name?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      subscriptions: {
+        Row: {
+          created_at: string
+          current_period_end: string | null
+          current_period_start: string | null
+          id: string
+          organization_id: string
+          plan_id: string
+          status: string
+          trial_ends_at: string | null
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          current_period_end?: string | null
+          current_period_start?: string | null
+          id?: string
+          organization_id: string
+          plan_id: string
+          status?: string
+          trial_ends_at?: string | null
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          current_period_end?: string | null
+          current_period_start?: string | null
+          id?: string
+          organization_id?: string
+          plan_id?: string
+          status?: string
+          trial_ends_at?: string | null
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "subscriptions_organization_id_fkey"
+            columns: ["organization_id"]
+            isOneToOne: true
+            referencedRelation: "organizations"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "subscriptions_plan_id_fkey"
+            columns: ["plan_id"]
+            isOneToOne: false
+            referencedRelation: "subscription_plans"
             referencedColumns: ["id"]
           },
         ]
