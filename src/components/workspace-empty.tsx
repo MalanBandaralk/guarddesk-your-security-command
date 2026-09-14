@@ -14,7 +14,10 @@ export function WorkspaceEmpty() {
     setBusy(true);
     const { error } = await supabase.rpc("create_demo_organization", { _company_name: name.trim() || "Demo Security (Pvt) Ltd" });
     setBusy(false);
-    if (error) return toast.error(error.message);
+    if (error) {
+      toast.error(error.message);
+      return;
+    }
     await refreshWorkspaces();
     toast.success("Your GuardDesk workspace is ready.");
   };
