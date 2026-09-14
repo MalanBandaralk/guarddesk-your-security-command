@@ -1,4 +1,4 @@
-import { Link, Outlet, useNavigate } from "@tanstack/react-router";
+import { Link, Outlet } from "@tanstack/react-router";
 import {
   Activity, BadgeDollarSign, Bell, Building2, CalendarDays, ChevronDown, ClipboardCheck,
   FileClock, FileText, Gauge, LogOut, Menu, MoreHorizontal, ReceiptText, Search,
@@ -30,8 +30,7 @@ const nav = [
 export function AppShell() {
   const [mobileOpen, setMobileOpen] = useState(false);
   const { activeWorkspace, workspaces, setActiveOrganization, user, signOut } = useAuth();
-  const navigate = useNavigate();
-  const displayName = activeWorkspace?.display_name || user?.user_metadata?.full_name || user?.email?.split("@")[0] || "User";
+  const displayName = activeWorkspace?.display_name || user?.user_metadata?.["full_name"] || user?.email?.split("@")[0] || "User";
 
   const sidebar = (
     <div className="flex h-full flex-col bg-sidebar text-sidebar-foreground">
@@ -53,7 +52,7 @@ export function AppShell() {
         </div>
       </nav>
       <div className="border-t border-sidebar-border p-3">
-        <button className="flex w-full items-center gap-3 rounded-md p-2 text-left hover:bg-sidebar-accent" onClick={() => void signOut().then(() => navigate({ to: "/auth" }))}>
+        <button className="flex w-full items-center gap-3 rounded-md p-2 text-left hover:bg-sidebar-accent" onClick={() => void signOut().then(() => { window.location.href = "/auth"; })}>
           <span className="grid size-9 place-items-center rounded-full bg-primary text-xs font-semibold text-primary-foreground">{initials(displayName)}</span>
           <span className="min-w-0 flex-1"><span className="block truncate text-sm font-medium">{displayName}</span><span className="block truncate text-xs capitalize text-muted-foreground">{activeWorkspace?.role ?? "Member"}</span></span>
           <LogOut className="size-4 text-muted-foreground" />
