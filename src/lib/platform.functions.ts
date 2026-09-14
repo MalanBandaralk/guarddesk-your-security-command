@@ -2,7 +2,9 @@ import { createServerFn } from "@tanstack/react-start";
 import { z } from "zod";
 import { requireSupabaseAuth } from "@/integrations/supabase/auth-middleware";
 
-async function assertPlatformAdmin(supabase: any, userId: string) {
+type AuthedSupabase = Parameters<Parameters<ReturnType<typeof createServerFn>["handler"]>[0]>[0]["context"]["supabase"];
+
+async function assertPlatformAdmin(supabase: AuthedSupabase, userId: string) {
   const { data } = await supabase
     .from("platform_admins")
     .select("user_id")
