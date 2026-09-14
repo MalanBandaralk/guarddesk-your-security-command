@@ -43,6 +43,20 @@ Configurable pay rules (normal, overtime, night, holiday, allowances, deductions
 ## Phase 4 — Platform admin and client portal
 Platform administrator area: security companies, company users, plans, pricing, discounts, trials, subscriptions, payments, usage and plan limits, with activation, suspension, deactivation and reactivation that never delete tenant data. Pricing entirely database-driven with pricing history. Client portal restricted to a client's own coverage, guards, attendance summaries, patrol compliance, incidents, daily reports, inspections, contracts, invoices, payments and approved documents — never payroll, internal notes or profitability.
 
+## Portability — future migration to Vercel / self-hosting
+You plan to migrate the app off Lovable hosting later and self-host on Vercel. The build keeps that path clean:
+- Standard, portable stack: plain React + TanStack Start, so the repo deploys to Vercel with the standard framework preset — no Lovable-proprietary runtime dependencies in the application code itself.
+- All configuration through environment variables (Supabase URL, keys, secrets) — never hard-coded endpoints or credentials — so moving hosts means updating env vars, not code.
+- Server code uses Web-standard fetch, crypto and streams only — no host-specific filesystem or Node-only APIs — keeping server functions compatible with Vercel (Node or Edge) serverless functions.
+- Database stays fully in Supabase: schema changes are plain, reviewable SQL migrations under `supabase/migrations/`, so the database and its history move independently of the web host and can later point at a self-hosted Postgres.
+- Files live in Supabase Storage with signed URLs, not host-local disk, so nothing is lost on migration.
+- Migration checklist when you're ready: connect the GitHub repo to Vercel, set the environment variables, keep the Supabase project unchanged, update auth redirect URLs, deploy.
+
+## Code quality bar
+- Clean, secure, migratable code throughout: strict TypeScript (no `any`), small single-purpose components, business rules in one shared place (no duplicated logic), comments where intent isn't obvious.
+- Security non-negotiable: RLS on every tenant table, server-side validation for all sensitive operations, audit logging, private storage for confidential files, no secrets in the frontend.
+- Every feature implemented with real, production-quality logic — no dead code, no placeholder-but-looks-live screens, no shortcuts that would need rework before going live.
+
 ## Technical notes
 - TanStack Start + React + TypeScript (strict) + Tailwind on the connected Supabase project (Auth, Postgres, Storage). Feature-based modules, shared business logic centralized, no `any`, no giant components.
 - Tenant isolation through row-level security keyed to organization membership; the browser is treated as untrusted and frontend role checks are for presentation only.
