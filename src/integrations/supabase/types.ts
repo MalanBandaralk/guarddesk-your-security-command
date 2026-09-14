@@ -1636,6 +1636,21 @@ export type Database = {
           },
         ]
       }
+      platform_admins: {
+        Row: {
+          created_at: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
       post_orders: {
         Row: {
           active: boolean
@@ -2089,6 +2104,7 @@ export type Database = {
         Args: { _company_name?: string }
         Returns: string
       }
+      is_platform_admin: { Args: { _user_id?: string }; Returns: boolean }
     }
     Enums: {
       org_role:
