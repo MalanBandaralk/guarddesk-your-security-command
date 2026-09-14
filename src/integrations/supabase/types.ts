@@ -2104,7 +2104,6 @@ export type Database = {
         Args: { _company_name?: string }
         Returns: string
       }
-      is_platform_admin: { Args: { _user_id?: string }; Returns: boolean }
     }
     Enums: {
       org_role:

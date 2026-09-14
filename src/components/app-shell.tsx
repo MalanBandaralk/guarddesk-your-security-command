@@ -1,10 +1,12 @@
 import { Link, Outlet } from "@tanstack/react-router";
 import {
   Activity, BadgeDollarSign, Bell, Building2, CalendarDays, ChevronDown, ClipboardCheck,
-  FileClock, FileText, Gauge, LogOut, Menu, MoreHorizontal, ReceiptText, Search,
+  FileClock, FileText, Gauge, Globe2, LogOut, Menu, MoreHorizontal, ReceiptText, Search,
   ShieldCheck, Siren, UserRoundCheck, UsersRound, WalletCards, X,
 } from "lucide-react";
 import { useState } from "react";
+import { useQuery } from "@tanstack/react-query";
+import { checkPlatformAdmin } from "@/lib/platform.functions";
 import { BrandMark } from "@/components/brand-mark";
 import { Button } from "@/components/ui/button";
 import { useAuth } from "@/lib/auth";
@@ -30,6 +32,8 @@ const nav = [
 export function AppShell() {
   const [mobileOpen, setMobileOpen] = useState(false);
   const { activeWorkspace, workspaces, setActiveOrganization, user, signOut } = useAuth();
+  const platformAdmin = useQuery({ queryKey: ["platform-admin-check"], queryFn: () => checkPlatformAdmin(), staleTime: 60_000 });
+  const isPlatformAdmin = platformAdmin.data?.isPlatformAdmin ?? false;
   const displayName = activeWorkspace?.display_name || user?.user_metadata?.["full_name"] || user?.email?.split("@")[0] || "User";
 
   const sidebar = (
@@ -50,6 +54,12 @@ export function AppShell() {
           <p className="px-3 pb-2 text-[11px] font-semibold uppercase text-muted-foreground">Finance</p>
           <div className="space-y-1">{nav.slice(10).map((item) => <NavItem key={item.to} {...item} close={() => setMobileOpen(false)} />)}</div>
         </div>
+        {isPlatformAdmin && (
+          <div>
+            <p className="px-3 pb-2 text-[11px] font-semibold uppercase text-muted-foreground">Platform</p>
+            <Link to="/platform" onClick={() => setMobileOpen(false)} className="flex h-10 items-center gap-3 rounded-md px-3 text-sm font-medium text-muted-foreground transition-colors hover:bg-sidebar-accent hover:text-sidebar-accent-foreground"><Globe2 className="size-4" />Platform admin</Link>
+          </div>
+        )}
       </nav>
       <div className="border-t border-sidebar-border p-3">
         <button className="flex w-full items-center gap-3 rounded-md p-2 text-left hover:bg-sidebar-accent" onClick={() => void signOut().then(() => { window.location.href = "/auth"; })}>

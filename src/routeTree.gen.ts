@@ -12,6 +12,7 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AppRouteRouteImport } from './routes/app/route'
 import { Route as AuthRouteImport } from './routes/auth'
+import { Route as PlatformRouteRouteImport } from './routes/platform/route'
 import { Route as AppIndexRouteImport } from './routes/app/index'
 import { Route as AppAttendanceRouteImport } from './routes/app/attendance'
 import { Route as AppBillingRouteImport } from './routes/app/billing'
@@ -25,6 +26,10 @@ import { Route as AppPatrolsRouteImport } from './routes/app/patrols'
 import { Route as AppPayrollRouteImport } from './routes/app/payroll'
 import { Route as AppProfitabilityRouteImport } from './routes/app/profitability'
 import { Route as AppScheduleRouteImport } from './routes/app/schedule'
+import { Route as PlatformIndexRouteImport } from './routes/platform/index'
+import { Route as PlatformAdminsRouteImport } from './routes/platform/admins'
+import { Route as PlatformCompaniesRouteImport } from './routes/platform/companies'
+import { Route as PlatformPlansRouteImport } from './routes/platform/plans'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -39,6 +44,11 @@ const AppRouteRoute = AppRouteRouteImport.update({
 const AuthRoute = AuthRouteImport.update({
   id: '/auth',
   path: '/auth',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PlatformRouteRoute = PlatformRouteRouteImport.update({
+  id: '/platform',
+  path: '/platform',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AppIndexRoute = AppIndexRouteImport.update({
@@ -106,10 +116,31 @@ const AppScheduleRoute = AppScheduleRouteImport.update({
   path: '/schedule',
   getParentRoute: () => AppRouteRoute,
 } as any)
+const PlatformIndexRoute = PlatformIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => PlatformRouteRoute,
+} as any)
+const PlatformAdminsRoute = PlatformAdminsRouteImport.update({
+  id: '/admins',
+  path: '/admins',
+  getParentRoute: () => PlatformRouteRoute,
+} as any)
+const PlatformCompaniesRoute = PlatformCompaniesRouteImport.update({
+  id: '/companies',
+  path: '/companies',
+  getParentRoute: () => PlatformRouteRoute,
+} as any)
+const PlatformPlansRoute = PlatformPlansRouteImport.update({
+  id: '/plans',
+  path: '/plans',
+  getParentRoute: () => PlatformRouteRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/app': typeof AppRouteRouteWithChildren
+  '/platform': typeof PlatformRouteRouteWithChildren
   '/auth': typeof AuthRoute
   '/app/attendance': typeof AppAttendanceRoute
   '/app/billing': typeof AppBillingRoute
@@ -123,7 +154,11 @@ export interface FileRoutesByFullPath {
   '/app/payroll': typeof AppPayrollRoute
   '/app/profitability': typeof AppProfitabilityRoute
   '/app/schedule': typeof AppScheduleRoute
+  '/platform/admins': typeof PlatformAdminsRoute
+  '/platform/companies': typeof PlatformCompaniesRoute
+  '/platform/plans': typeof PlatformPlansRoute
   '/app/': typeof AppIndexRoute
+  '/platform/': typeof PlatformIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -140,12 +175,17 @@ export interface FileRoutesByTo {
   '/app/payroll': typeof AppPayrollRoute
   '/app/profitability': typeof AppProfitabilityRoute
   '/app/schedule': typeof AppScheduleRoute
+  '/platform/admins': typeof PlatformAdminsRoute
+  '/platform/companies': typeof PlatformCompaniesRoute
+  '/platform/plans': typeof PlatformPlansRoute
   '/app': typeof AppIndexRoute
+  '/platform': typeof PlatformIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/app': typeof AppRouteRouteWithChildren
+  '/platform': typeof PlatformRouteRouteWithChildren
   '/auth': typeof AuthRoute
   '/app/attendance': typeof AppAttendanceRoute
   '/app/billing': typeof AppBillingRoute
@@ -159,13 +199,18 @@ export interface FileRoutesById {
   '/app/payroll': typeof AppPayrollRoute
   '/app/profitability': typeof AppProfitabilityRoute
   '/app/schedule': typeof AppScheduleRoute
+  '/platform/admins': typeof PlatformAdminsRoute
+  '/platform/companies': typeof PlatformCompaniesRoute
+  '/platform/plans': typeof PlatformPlansRoute
   '/app/': typeof AppIndexRoute
+  '/platform/': typeof PlatformIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
     | '/app'
+    | '/platform'
     | '/auth'
     | '/app/attendance'
     | '/app/billing'
@@ -179,7 +224,11 @@ export interface FileRouteTypes {
     | '/app/payroll'
     | '/app/profitability'
     | '/app/schedule'
+    | '/platform/admins'
+    | '/platform/companies'
+    | '/platform/plans'
     | '/app/'
+    | '/platform/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -196,11 +245,16 @@ export interface FileRouteTypes {
     | '/app/payroll'
     | '/app/profitability'
     | '/app/schedule'
+    | '/platform/admins'
+    | '/platform/companies'
+    | '/platform/plans'
     | '/app'
+    | '/platform'
   id:
     | '__root__'
     | '/'
     | '/app'
+    | '/platform'
     | '/auth'
     | '/app/attendance'
     | '/app/billing'
@@ -214,12 +268,17 @@ export interface FileRouteTypes {
     | '/app/payroll'
     | '/app/profitability'
     | '/app/schedule'
+    | '/platform/admins'
+    | '/platform/companies'
+    | '/platform/plans'
     | '/app/'
+    | '/platform/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AppRouteRoute: typeof AppRouteRouteWithChildren
+  PlatformRouteRoute: typeof PlatformRouteRouteWithChildren
   AuthRoute: typeof AuthRoute
 }
 
@@ -244,6 +303,13 @@ declare module '@tanstack/react-router' {
       path: '/auth'
       fullPath: '/auth'
       preLoaderRoute: typeof AuthRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/platform': {
+      id: '/platform'
+      path: '/platform'
+      fullPath: '/platform'
+      preLoaderRoute: typeof PlatformRouteRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/app/': {
@@ -337,6 +403,34 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppScheduleRouteImport
       parentRoute: typeof AppRouteRoute
     }
+    '/platform/': {
+      id: '/platform/'
+      path: '/'
+      fullPath: '/platform/'
+      preLoaderRoute: typeof PlatformIndexRouteImport
+      parentRoute: typeof PlatformRouteRoute
+    }
+    '/platform/admins': {
+      id: '/platform/admins'
+      path: '/admins'
+      fullPath: '/platform/admins'
+      preLoaderRoute: typeof PlatformAdminsRouteImport
+      parentRoute: typeof PlatformRouteRoute
+    }
+    '/platform/companies': {
+      id: '/platform/companies'
+      path: '/companies'
+      fullPath: '/platform/companies'
+      preLoaderRoute: typeof PlatformCompaniesRouteImport
+      parentRoute: typeof PlatformRouteRoute
+    }
+    '/platform/plans': {
+      id: '/platform/plans'
+      path: '/plans'
+      fullPath: '/platform/plans'
+      preLoaderRoute: typeof PlatformPlansRouteImport
+      parentRoute: typeof PlatformRouteRoute
+    }
   }
 }
 
@@ -376,9 +470,28 @@ const AppRouteRouteWithChildren = AppRouteRoute._addFileChildren(
   AppRouteRouteChildren,
 )
 
+interface PlatformRouteRouteChildren {
+  PlatformAdminsRoute: typeof PlatformAdminsRoute
+  PlatformCompaniesRoute: typeof PlatformCompaniesRoute
+  PlatformPlansRoute: typeof PlatformPlansRoute
+  PlatformIndexRoute: typeof PlatformIndexRoute
+}
+
+const PlatformRouteRouteChildren: PlatformRouteRouteChildren = {
+  PlatformAdminsRoute: PlatformAdminsRoute,
+  PlatformCompaniesRoute: PlatformCompaniesRoute,
+  PlatformPlansRoute: PlatformPlansRoute,
+  PlatformIndexRoute: PlatformIndexRoute,
+}
+
+const PlatformRouteRouteWithChildren = PlatformRouteRoute._addFileChildren(
+  PlatformRouteRouteChildren,
+)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AppRouteRoute: AppRouteRouteWithChildren,
+  PlatformRouteRoute: PlatformRouteRouteWithChildren,
   AuthRoute: AuthRoute,
 }
 export const routeTree = rootRouteImport
