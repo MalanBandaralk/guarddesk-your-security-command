@@ -12,6 +12,7 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AppRouteRouteImport } from './routes/app/route'
 import { Route as AuthRouteImport } from './routes/auth'
+import { Route as PlatformRouteRouteImport } from './routes/platform/route'
 import { Route as AppIndexRouteImport } from './routes/app/index'
 import { Route as AppAttendanceRouteImport } from './routes/app/attendance'
 import { Route as AppBillingRouteImport } from './routes/app/billing'
@@ -25,6 +26,7 @@ import { Route as AppPatrolsRouteImport } from './routes/app/patrols'
 import { Route as AppPayrollRouteImport } from './routes/app/payroll'
 import { Route as AppProfitabilityRouteImport } from './routes/app/profitability'
 import { Route as AppScheduleRouteImport } from './routes/app/schedule'
+import { Route as PlatformIndexRouteImport } from './routes/platform/index'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -39,6 +41,11 @@ const AppRouteRoute = AppRouteRouteImport.update({
 const AuthRoute = AuthRouteImport.update({
   id: '/auth',
   path: '/auth',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PlatformRouteRoute = PlatformRouteRouteImport.update({
+  id: '/platform',
+  path: '/platform',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AppIndexRoute = AppIndexRouteImport.update({
@@ -106,10 +113,16 @@ const AppScheduleRoute = AppScheduleRouteImport.update({
   path: '/schedule',
   getParentRoute: () => AppRouteRoute,
 } as any)
+const PlatformIndexRoute = PlatformIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => PlatformRouteRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/app': typeof AppRouteRouteWithChildren
+  '/platform': typeof PlatformRouteRouteWithChildren
   '/auth': typeof AuthRoute
   '/app/attendance': typeof AppAttendanceRoute
   '/app/billing': typeof AppBillingRoute
@@ -124,6 +137,7 @@ export interface FileRoutesByFullPath {
   '/app/profitability': typeof AppProfitabilityRoute
   '/app/schedule': typeof AppScheduleRoute
   '/app/': typeof AppIndexRoute
+  '/platform/': typeof PlatformIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -141,11 +155,13 @@ export interface FileRoutesByTo {
   '/app/profitability': typeof AppProfitabilityRoute
   '/app/schedule': typeof AppScheduleRoute
   '/app': typeof AppIndexRoute
+  '/platform': typeof PlatformIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/app': typeof AppRouteRouteWithChildren
+  '/platform': typeof PlatformRouteRouteWithChildren
   '/auth': typeof AuthRoute
   '/app/attendance': typeof AppAttendanceRoute
   '/app/billing': typeof AppBillingRoute
@@ -160,12 +176,14 @@ export interface FileRoutesById {
   '/app/profitability': typeof AppProfitabilityRoute
   '/app/schedule': typeof AppScheduleRoute
   '/app/': typeof AppIndexRoute
+  '/platform/': typeof PlatformIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
     | '/app'
+    | '/platform'
     | '/auth'
     | '/app/attendance'
     | '/app/billing'
@@ -180,6 +198,7 @@ export interface FileRouteTypes {
     | '/app/profitability'
     | '/app/schedule'
     | '/app/'
+    | '/platform/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -197,10 +216,12 @@ export interface FileRouteTypes {
     | '/app/profitability'
     | '/app/schedule'
     | '/app'
+    | '/platform'
   id:
     | '__root__'
     | '/'
     | '/app'
+    | '/platform'
     | '/auth'
     | '/app/attendance'
     | '/app/billing'
@@ -215,11 +236,13 @@ export interface FileRouteTypes {
     | '/app/profitability'
     | '/app/schedule'
     | '/app/'
+    | '/platform/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AppRouteRoute: typeof AppRouteRouteWithChildren
+  PlatformRouteRoute: typeof PlatformRouteRouteWithChildren
   AuthRoute: typeof AuthRoute
 }
 
@@ -244,6 +267,13 @@ declare module '@tanstack/react-router' {
       path: '/auth'
       fullPath: '/auth'
       preLoaderRoute: typeof AuthRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/platform': {
+      id: '/platform'
+      path: '/platform'
+      fullPath: '/platform'
+      preLoaderRoute: typeof PlatformRouteRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/app/': {
@@ -337,6 +367,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppScheduleRouteImport
       parentRoute: typeof AppRouteRoute
     }
+    '/platform/': {
+      id: '/platform/'
+      path: '/'
+      fullPath: '/platform/'
+      preLoaderRoute: typeof PlatformIndexRouteImport
+      parentRoute: typeof PlatformRouteRoute
+    }
   }
 }
 
@@ -376,9 +413,22 @@ const AppRouteRouteWithChildren = AppRouteRoute._addFileChildren(
   AppRouteRouteChildren,
 )
 
+interface PlatformRouteRouteChildren {
+  PlatformIndexRoute: typeof PlatformIndexRoute
+}
+
+const PlatformRouteRouteChildren: PlatformRouteRouteChildren = {
+  PlatformIndexRoute: PlatformIndexRoute,
+}
+
+const PlatformRouteRouteWithChildren = PlatformRouteRoute._addFileChildren(
+  PlatformRouteRouteChildren,
+)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AppRouteRoute: AppRouteRouteWithChildren,
+  PlatformRouteRoute: PlatformRouteRouteWithChildren,
   AuthRoute: AuthRoute,
 }
 export const routeTree = rootRouteImport
