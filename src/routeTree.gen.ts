@@ -14,11 +14,16 @@ import { Route as AppRouteRouteImport } from './routes/app/route'
 import { Route as AuthRouteImport } from './routes/auth'
 import { Route as AppIndexRouteImport } from './routes/app/index'
 import { Route as AppAttendanceRouteImport } from './routes/app/attendance'
+import { Route as AppBillingRouteImport } from './routes/app/billing'
 import { Route as AppClientsRouteImport } from './routes/app/clients'
 import { Route as AppContractsRouteImport } from './routes/app/contracts'
 import { Route as AppDocumentsRouteImport } from './routes/app/documents'
 import { Route as AppGuardsRouteImport } from './routes/app/guards'
+import { Route as AppIncidentsRouteImport } from './routes/app/incidents'
 import { Route as AppOperationsRouteImport } from './routes/app/operations'
+import { Route as AppPatrolsRouteImport } from './routes/app/patrols'
+import { Route as AppPayrollRouteImport } from './routes/app/payroll'
+import { Route as AppProfitabilityRouteImport } from './routes/app/profitability'
 import { Route as AppScheduleRouteImport } from './routes/app/schedule'
 
 const IndexRoute = IndexRouteImport.update({
@@ -46,6 +51,11 @@ const AppAttendanceRoute = AppAttendanceRouteImport.update({
   path: '/attendance',
   getParentRoute: () => AppRouteRoute,
 } as any)
+const AppBillingRoute = AppBillingRouteImport.update({
+  id: '/billing',
+  path: '/billing',
+  getParentRoute: () => AppRouteRoute,
+} as any)
 const AppClientsRoute = AppClientsRouteImport.update({
   id: '/clients',
   path: '/clients',
@@ -66,9 +76,29 @@ const AppGuardsRoute = AppGuardsRouteImport.update({
   path: '/guards',
   getParentRoute: () => AppRouteRoute,
 } as any)
+const AppIncidentsRoute = AppIncidentsRouteImport.update({
+  id: '/incidents',
+  path: '/incidents',
+  getParentRoute: () => AppRouteRoute,
+} as any)
 const AppOperationsRoute = AppOperationsRouteImport.update({
   id: '/operations',
   path: '/operations',
+  getParentRoute: () => AppRouteRoute,
+} as any)
+const AppPatrolsRoute = AppPatrolsRouteImport.update({
+  id: '/patrols',
+  path: '/patrols',
+  getParentRoute: () => AppRouteRoute,
+} as any)
+const AppPayrollRoute = AppPayrollRouteImport.update({
+  id: '/payroll',
+  path: '/payroll',
+  getParentRoute: () => AppRouteRoute,
+} as any)
+const AppProfitabilityRoute = AppProfitabilityRouteImport.update({
+  id: '/profitability',
+  path: '/profitability',
   getParentRoute: () => AppRouteRoute,
 } as any)
 const AppScheduleRoute = AppScheduleRouteImport.update({
@@ -82,11 +112,16 @@ export interface FileRoutesByFullPath {
   '/app': typeof AppRouteRouteWithChildren
   '/auth': typeof AuthRoute
   '/app/attendance': typeof AppAttendanceRoute
+  '/app/billing': typeof AppBillingRoute
   '/app/clients': typeof AppClientsRoute
   '/app/contracts': typeof AppContractsRoute
   '/app/documents': typeof AppDocumentsRoute
   '/app/guards': typeof AppGuardsRoute
+  '/app/incidents': typeof AppIncidentsRoute
   '/app/operations': typeof AppOperationsRoute
+  '/app/patrols': typeof AppPatrolsRoute
+  '/app/payroll': typeof AppPayrollRoute
+  '/app/profitability': typeof AppProfitabilityRoute
   '/app/schedule': typeof AppScheduleRoute
   '/app/': typeof AppIndexRoute
 }
@@ -94,11 +129,16 @@ export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/auth': typeof AuthRoute
   '/app/attendance': typeof AppAttendanceRoute
+  '/app/billing': typeof AppBillingRoute
   '/app/clients': typeof AppClientsRoute
   '/app/contracts': typeof AppContractsRoute
   '/app/documents': typeof AppDocumentsRoute
   '/app/guards': typeof AppGuardsRoute
+  '/app/incidents': typeof AppIncidentsRoute
   '/app/operations': typeof AppOperationsRoute
+  '/app/patrols': typeof AppPatrolsRoute
+  '/app/payroll': typeof AppPayrollRoute
+  '/app/profitability': typeof AppProfitabilityRoute
   '/app/schedule': typeof AppScheduleRoute
   '/app': typeof AppIndexRoute
 }
@@ -108,11 +148,16 @@ export interface FileRoutesById {
   '/app': typeof AppRouteRouteWithChildren
   '/auth': typeof AuthRoute
   '/app/attendance': typeof AppAttendanceRoute
+  '/app/billing': typeof AppBillingRoute
   '/app/clients': typeof AppClientsRoute
   '/app/contracts': typeof AppContractsRoute
   '/app/documents': typeof AppDocumentsRoute
   '/app/guards': typeof AppGuardsRoute
+  '/app/incidents': typeof AppIncidentsRoute
   '/app/operations': typeof AppOperationsRoute
+  '/app/patrols': typeof AppPatrolsRoute
+  '/app/payroll': typeof AppPayrollRoute
+  '/app/profitability': typeof AppProfitabilityRoute
   '/app/schedule': typeof AppScheduleRoute
   '/app/': typeof AppIndexRoute
 }
@@ -123,11 +168,16 @@ export interface FileRouteTypes {
     | '/app'
     | '/auth'
     | '/app/attendance'
+    | '/app/billing'
     | '/app/clients'
     | '/app/contracts'
     | '/app/documents'
     | '/app/guards'
+    | '/app/incidents'
     | '/app/operations'
+    | '/app/patrols'
+    | '/app/payroll'
+    | '/app/profitability'
     | '/app/schedule'
     | '/app/'
   fileRoutesByTo: FileRoutesByTo
@@ -135,11 +185,16 @@ export interface FileRouteTypes {
     | '/'
     | '/auth'
     | '/app/attendance'
+    | '/app/billing'
     | '/app/clients'
     | '/app/contracts'
     | '/app/documents'
     | '/app/guards'
+    | '/app/incidents'
     | '/app/operations'
+    | '/app/patrols'
+    | '/app/payroll'
+    | '/app/profitability'
     | '/app/schedule'
     | '/app'
   id:
@@ -148,11 +203,16 @@ export interface FileRouteTypes {
     | '/app'
     | '/auth'
     | '/app/attendance'
+    | '/app/billing'
     | '/app/clients'
     | '/app/contracts'
     | '/app/documents'
     | '/app/guards'
+    | '/app/incidents'
     | '/app/operations'
+    | '/app/patrols'
+    | '/app/payroll'
+    | '/app/profitability'
     | '/app/schedule'
     | '/app/'
   fileRoutesById: FileRoutesById
@@ -200,6 +260,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppAttendanceRouteImport
       parentRoute: typeof AppRouteRoute
     }
+    '/app/billing': {
+      id: '/app/billing'
+      path: '/billing'
+      fullPath: '/app/billing'
+      preLoaderRoute: typeof AppBillingRouteImport
+      parentRoute: typeof AppRouteRoute
+    }
     '/app/clients': {
       id: '/app/clients'
       path: '/clients'
@@ -228,11 +295,39 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppGuardsRouteImport
       parentRoute: typeof AppRouteRoute
     }
+    '/app/incidents': {
+      id: '/app/incidents'
+      path: '/incidents'
+      fullPath: '/app/incidents'
+      preLoaderRoute: typeof AppIncidentsRouteImport
+      parentRoute: typeof AppRouteRoute
+    }
     '/app/operations': {
       id: '/app/operations'
       path: '/operations'
       fullPath: '/app/operations'
       preLoaderRoute: typeof AppOperationsRouteImport
+      parentRoute: typeof AppRouteRoute
+    }
+    '/app/patrols': {
+      id: '/app/patrols'
+      path: '/patrols'
+      fullPath: '/app/patrols'
+      preLoaderRoute: typeof AppPatrolsRouteImport
+      parentRoute: typeof AppRouteRoute
+    }
+    '/app/payroll': {
+      id: '/app/payroll'
+      path: '/payroll'
+      fullPath: '/app/payroll'
+      preLoaderRoute: typeof AppPayrollRouteImport
+      parentRoute: typeof AppRouteRoute
+    }
+    '/app/profitability': {
+      id: '/app/profitability'
+      path: '/profitability'
+      fullPath: '/app/profitability'
+      preLoaderRoute: typeof AppProfitabilityRouteImport
       parentRoute: typeof AppRouteRoute
     }
     '/app/schedule': {
@@ -247,22 +342,32 @@ declare module '@tanstack/react-router' {
 
 interface AppRouteRouteChildren {
   AppAttendanceRoute: typeof AppAttendanceRoute
+  AppBillingRoute: typeof AppBillingRoute
   AppClientsRoute: typeof AppClientsRoute
   AppContractsRoute: typeof AppContractsRoute
   AppDocumentsRoute: typeof AppDocumentsRoute
   AppGuardsRoute: typeof AppGuardsRoute
+  AppIncidentsRoute: typeof AppIncidentsRoute
   AppOperationsRoute: typeof AppOperationsRoute
+  AppPatrolsRoute: typeof AppPatrolsRoute
+  AppPayrollRoute: typeof AppPayrollRoute
+  AppProfitabilityRoute: typeof AppProfitabilityRoute
   AppScheduleRoute: typeof AppScheduleRoute
   AppIndexRoute: typeof AppIndexRoute
 }
 
 const AppRouteRouteChildren: AppRouteRouteChildren = {
   AppAttendanceRoute: AppAttendanceRoute,
+  AppBillingRoute: AppBillingRoute,
   AppClientsRoute: AppClientsRoute,
   AppContractsRoute: AppContractsRoute,
   AppDocumentsRoute: AppDocumentsRoute,
   AppGuardsRoute: AppGuardsRoute,
+  AppIncidentsRoute: AppIncidentsRoute,
   AppOperationsRoute: AppOperationsRoute,
+  AppPatrolsRoute: AppPatrolsRoute,
+  AppPayrollRoute: AppPayrollRoute,
+  AppProfitabilityRoute: AppProfitabilityRoute,
   AppScheduleRoute: AppScheduleRoute,
   AppIndexRoute: AppIndexRoute,
 }

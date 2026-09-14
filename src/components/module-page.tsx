@@ -66,7 +66,7 @@ export function ModulePage({ kind }: { kind: ModuleKind }) {
   const icon = kind === "patrols" ? RouteIcon : kind === "incidents" ? Siren : kind === "payroll" ? WalletCards : kind === "billing" ? ReceiptText : CircleDollarSign;
   if (error) return <><PageHeader title={title} description={description} /><EmptyState title="This module could not be loaded" description={error} /></>;
   if (kind === "profitability") {
-    const values = rows.map((row) => String(row.amount));
+    const values = rows.map((row) => String(row["amount"]));
     return <><PageHeader title={title} description={description} /><div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4"><MetricCard label="Revenue" value={values[0] ?? "LKR 0"} detail="Active contract value" icon={CircleDollarSign} /><MetricCard label="Payroll" value={values[1] ?? "LKR 0"} detail="Approved payroll records" icon={WalletCards} /><MetricCard label="Expenses" value={values[2] ?? "LKR 0"} detail="Recorded operating costs" icon={ReceiptText} /><MetricCard label="Estimated profit" value={values[3] ?? "LKR 0"} detail="Revenue − payroll − expenses" icon={FileCheck2} tone="success" /></div></>;
   }
   const columns = rows[0] ? Object.keys(rows[0]) : [];
