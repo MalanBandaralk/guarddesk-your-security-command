@@ -1,0 +1,2 @@
+import { createFileRoute } from "@tanstack/react-router"; import { ModulePage } from "@/components/module-page";
+export const Route = createFileRoute("/app/billing")({ head: () => ({ meta: [{ title: "Billing | GuardDesk" },{ name: "description", content: "Create and track client invoices." },{ property: "og:title", content: "Billing | GuardDesk" },{ property: "og:description", content: "Create and track client invoices." },{ property: "og:type", content: "website" },{ name: "twitter:card", content: "summary" }] }), component: () => <ModulePage kind="billing" /> });
