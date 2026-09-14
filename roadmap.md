@@ -1,5 +1,6 @@
 ## GuardDesk delivery
-- [ ] Fix current TypeScript error
-- [ ] Complete public and authenticated application flows
-- [ ] Validate database integration, security, and core workflows
-- [ ] Verify desktop and mobile rendering
+- [x] Fix current TypeScript error
+- [x] Complete public and authenticated application flows
+- [x] Validate database integration, security, and core workflows
+- [x] Verify public desktop rendering
+- [ ] Verify signed-in workflows (blocked: external Supabase session is unavailable to automated preview)

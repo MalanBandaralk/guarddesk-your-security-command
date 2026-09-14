@@ -2089,15 +2089,6 @@ export type Database = {
         Args: { _company_name?: string }
         Returns: string
       }
-      has_org_role: {
-        Args: {
-          _org: string
-          _roles: Database["public"]["Enums"]["org_role"][]
-        }
-        Returns: boolean
-      }
-      is_org_manager: { Args: { _org: string }; Returns: boolean }
-      is_org_member: { Args: { _org: string }; Returns: boolean }
     }
     Enums: {
       org_role:
