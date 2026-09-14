@@ -1,0 +1,3 @@
+import { createFileRoute } from "@tanstack/react-router";
+import { ResourcePage } from "@/components/resource-page";
+export const Route = createFileRoute("/app/guards")({ head: () => ({ meta: [{ title: "Guards | GuardDesk" },{ name: "description", content: "Manage guard personnel and readiness." },{ property: "og:title", content: "Guards | GuardDesk" },{ property: "og:description", content: "Manage guard personnel and readiness." },{ property: "og:type", content: "website" },{ name: "twitter:card", content: "summary" }] }), component: () => <ResourcePage kind="guards" /> });
