@@ -3,4 +3,5 @@
 - [x] Complete public and authenticated application flows
 - [x] Validate database integration, security, and core workflows
 - [x] Verify public desktop rendering
-- [ ] Verify signed-in workflows (blocked: external Supabase session is unavailable to automated preview)
+- [x] Restore authenticated server-function token forwarding
+- [ ] Verify signed-in workflows (blocked: this external Supabase project cannot provide an automated preview session)

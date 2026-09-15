@@ -4,13 +4,12 @@ import { renderErrorPage } from "./lib/error-page";
 
 // Attaches the signed-in user's Supabase access token to every server
 // function call so requireSupabaseAuth can validate it server-side.
-const attachSupabaseAuth = createMiddleware().client(async ({ next }) => {
+const attachSupabaseAuth = createMiddleware({ type: "function" }).client(async ({ next }) => {
   const { supabase } = await import("@/integrations/supabase/client");
   const { data } = await supabase.auth.getSession();
   const token = data.session?.access_token;
-  return next({
-    headers: token ? { Authorization: `Bearer ${token}` } : undefined,
-  });
+  if (!token) return next();
+  return next({ headers: { Authorization: `Bearer ${token}` } });
 });
 
 const errorMiddleware = createMiddleware().server(async ({ next }) => {
@@ -37,4 +36,5 @@ const csrfMiddleware = createCsrfMiddleware({
 
 export const startInstance = createStart(() => ({
   requestMiddleware: [errorMiddleware, csrfMiddleware],
+  functionMiddleware: [attachSupabaseAuth],
 }));
