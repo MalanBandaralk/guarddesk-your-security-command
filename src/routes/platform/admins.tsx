@@ -9,7 +9,15 @@ import { formatDate } from "@/lib/format";
 import { useAuth } from "@/lib/auth";
 
 export const Route = createFileRoute("/platform/admins")({
-  head: () => ({ meta: [{ title: "Platform Admins — Platform Admin" }, { name: "robots", content: "noindex" }] }),
+  head: () => ({ meta: [
+    { title: "Platform Administrators | GuardDesk" },
+    { name: "description", content: "Manage authorized GuardDesk platform administrators." },
+    { property: "og:title", content: "Platform Administrators | GuardDesk" },
+    { property: "og:description", content: "Manage authorized GuardDesk platform administrators." },
+    { property: "og:type", content: "website" },
+    { name: "twitter:card", content: "summary" },
+    { name: "robots", content: "noindex" },
+  ] }),
   component: AdminsPage,
 });
 

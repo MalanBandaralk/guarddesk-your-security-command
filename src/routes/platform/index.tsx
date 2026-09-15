@@ -9,7 +9,15 @@ import { formatCurrency, formatDate } from "@/lib/format";
 import { StatusBadge } from "@/components/status-badge";
 
 export const Route = createFileRoute("/platform/")({
-  head: () => ({ meta: [{ title: "Platform Admin — GuardDesk" }, { name: "robots", content: "noindex" }] }),
+  head: () => ({ meta: [
+    { title: "Platform Overview | GuardDesk" },
+    { name: "description", content: "Review GuardDesk companies, subscriptions, revenue, and account status." },
+    { property: "og:title", content: "Platform Overview | GuardDesk" },
+    { property: "og:description", content: "Review GuardDesk companies, subscriptions, revenue, and account status." },
+    { property: "og:type", content: "website" },
+    { name: "twitter:card", content: "summary" },
+    { name: "robots", content: "noindex" },
+  ] }),
   component: PlatformDashboard,
 });
 

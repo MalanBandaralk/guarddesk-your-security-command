@@ -8,7 +8,15 @@ import { listPlatformPlans, setPlanActive } from "@/lib/platform.functions";
 import { formatCurrency } from "@/lib/format";
 
 export const Route = createFileRoute("/platform/plans")({
-  head: () => ({ meta: [{ title: "Plans & Pricing — Platform Admin" }, { name: "robots", content: "noindex" }] }),
+  head: () => ({ meta: [
+    { title: "Plans & Pricing | GuardDesk Platform" },
+    { name: "description", content: "Manage GuardDesk subscription plans, limits, and availability." },
+    { property: "og:title", content: "Plans & Pricing | GuardDesk Platform" },
+    { property: "og:description", content: "Manage GuardDesk subscription plans, limits, and availability." },
+    { property: "og:type", content: "website" },
+    { name: "twitter:card", content: "summary" },
+    { name: "robots", content: "noindex" },
+  ] }),
   component: PlansPage,
 });
 

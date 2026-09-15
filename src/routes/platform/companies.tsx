@@ -10,7 +10,15 @@ import { listPlatformCompanies, setOrganizationStatus } from "@/lib/platform.fun
 import { formatDate } from "@/lib/format";
 
 export const Route = createFileRoute("/platform/companies")({
-  head: () => ({ meta: [{ title: "Companies — Platform Admin" }, { name: "robots", content: "noindex" }] }),
+  head: () => ({ meta: [
+    { title: "Companies | GuardDesk Platform" },
+    { name: "description", content: "Manage companies and account access across the GuardDesk platform." },
+    { property: "og:title", content: "Companies | GuardDesk Platform" },
+    { property: "og:description", content: "Manage companies and account access across the GuardDesk platform." },
+    { property: "og:type", content: "website" },
+    { name: "twitter:card", content: "summary" },
+    { name: "robots", content: "noindex" },
+  ] }),
   component: CompaniesPage,
 });
 
