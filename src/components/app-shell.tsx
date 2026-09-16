@@ -76,7 +76,7 @@ export function AppShell() {
       <div className="border-t border-sidebar-border p-3">
         <button className="flex w-full items-center gap-3 rounded-md p-2 text-left hover:bg-sidebar-accent" onClick={() => void signOut().then(() => { window.location.href = "/auth"; })}>
           <span className="grid size-9 place-items-center rounded-full bg-primary text-xs font-semibold text-primary-foreground">{initials(displayName)}</span>
-          <span className="min-w-0 flex-1"><span className="block truncate text-sm font-medium">{displayName}</span><span className="block truncate text-xs capitalize text-muted-foreground">{activeWorkspace?.role ?? "Member"}</span></span>
+          <span className="min-w-0 flex-1"><span className="block truncate text-sm font-medium">{displayName}</span><span className="block truncate text-xs capitalize text-muted-foreground">{activeWorkspace?.role ?? (isPlatformAdmin ? "Platform administrator" : "Member")}</span></span>
           <LogOut className="size-4 text-muted-foreground" />
         </button>
       </div>
