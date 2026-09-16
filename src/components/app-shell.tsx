@@ -43,17 +43,28 @@ export function AppShell() {
         <Button variant="ghost" size="icon" className="lg:hidden" onClick={() => setMobileOpen(false)} aria-label="Close navigation"><X /></Button>
       </div>
       <nav className="flex-1 space-y-5 overflow-y-auto p-3" aria-label="Main navigation">
-        <div className="space-y-1">
-          {nav.slice(0, 6).map((item) => <NavItem key={item.to} {...item} close={() => setMobileOpen(false)} />)}
-        </div>
-        <div>
-          <p className="px-3 pb-2 text-[11px] font-semibold uppercase text-muted-foreground">Management</p>
-          <div className="space-y-1">{nav.slice(6, 10).map((item) => <NavItem key={item.to} {...item} close={() => setMobileOpen(false)} />)}</div>
-        </div>
-        <div>
-          <p className="px-3 pb-2 text-[11px] font-semibold uppercase text-muted-foreground">Finance</p>
-          <div className="space-y-1">{nav.slice(10).map((item) => <NavItem key={item.to} {...item} close={() => setMobileOpen(false)} />)}</div>
-        </div>
+        {activeWorkspace ? (
+          <>
+            <div className="space-y-1">
+              {nav.slice(0, 6).map((item) => <NavItem key={item.to} {...item} close={() => setMobileOpen(false)} />)}
+            </div>
+            <div>
+              <p className="px-3 pb-2 text-[11px] font-semibold uppercase text-muted-foreground">Management</p>
+              <div className="space-y-1">{nav.slice(6, 10).map((item) => <NavItem key={item.to} {...item} close={() => setMobileOpen(false)} />)}</div>
+            </div>
+            <div>
+              <p className="px-3 pb-2 text-[11px] font-semibold uppercase text-muted-foreground">Finance</p>
+              <div className="space-y-1">{nav.slice(10).map((item) => <NavItem key={item.to} {...item} close={() => setMobileOpen(false)} />)}</div>
+            </div>
+          </>
+        ) : (
+          <div className="space-y-1">
+            <NavItem label="Dashboard" to="/app" icon={Gauge} close={() => setMobileOpen(false)} />
+            <p className="px-3 pt-2 text-xs leading-5 text-muted-foreground">
+              {isPlatformAdmin ? "Company modules appear once you join a company workspace." : "Create your company workspace to unlock the operations modules."}
+            </p>
+          </div>
+        )}
         {isPlatformAdmin && (
           <div>
             <p className="px-3 pb-2 text-[11px] font-semibold uppercase text-muted-foreground">Platform</p>
@@ -61,6 +72,7 @@ export function AppShell() {
           </div>
         )}
       </nav>
+
       <div className="border-t border-sidebar-border p-3">
         <button className="flex w-full items-center gap-3 rounded-md p-2 text-left hover:bg-sidebar-accent" onClick={() => void signOut().then(() => { window.location.href = "/auth"; })}>
           <span className="grid size-9 place-items-center rounded-full bg-primary text-xs font-semibold text-primary-foreground">{initials(displayName)}</span>
