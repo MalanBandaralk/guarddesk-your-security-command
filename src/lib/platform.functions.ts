@@ -21,23 +21,69 @@ export const getPlatformOverview = createServerFn({ method: "GET" })
     await assertPlatformAdmin(context.supabase, context.userId);
     const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
 
-    const [orgs, members, subs, plans, invoices] = await Promise.all([
+    const [orgs, members, subs, plans, invoices, guards, sites, incidents] = await Promise.all([
       supabaseAdmin.from("organizations").select("id, status, created_at"),
       supabaseAdmin.from("organization_members").select("id", { count: "exact", head: true }),
-      supabaseAdmin.from("subscriptions").select("id, status, plan_id, organization_id"),
+      supabaseAdmin.from("subscriptions").select("id, status, plan_id, organization_id, trial_ends_at"),
       supabaseAdmin.from("subscription_plans").select("id, name, code, monthly_price, currency_code, active"),
       supabaseAdmin.from("invoices").select("id, total, status"),
+      supabaseAdmin.from("guards").select("id", { count: "exact", head: true }),
+      supabaseAdmin.from("sites").select("id", { count: "exact", head: true }),
+      supabaseAdmin.from("incidents").select("id", { count: "exact", head: true }).neq("status", "closed"),
     ]);
 
     const organizations = orgs.data ?? [];
     const subscriptions = subs.data ?? [];
+    const planRows = plans.data ?? [];
     const activeSubs = subscriptions.filter((s) => s.status === "active" || s.status === "trialing");
-    const planPrice = new Map((plans.data ?? []).map((p) => [p.id, Number(p.monthly_price)]));
+    const planPrice = new Map(planRows.map((p) => [p.id, Number(p.monthly_price)]));
     const mrr = activeSubs.reduce((sum, s) => sum + (planPrice.get(s.plan_id) ?? 0), 0);
     const invoiceRows = invoices.data ?? [];
     const outstanding = invoiceRows
       .filter((i) => i.status === "sent" || i.status === "overdue")
       .reduce((sum, i) => sum + Number(i.total), 0);
+
+    const now = Date.now();
+    const newLast30Days = organizations.filter((o) => now - new Date(o.created_at).getTime() <= 30 * 86400000).length;
+    const newPrevious30Days = organizations.filter((o) => {
+      const age = now - new Date(o.created_at).getTime();
+      return age > 30 * 86400000 && age <= 60 * 86400000;
+    }).length;
+    const trialsEndingSoon = subscriptions.filter(
+      (s) =>
+        s.status === "trialing" &&
+        s.trial_ends_at !== null &&
+        new Date(s.trial_ends_at).getTime() - now <= 14 * 86400000,
+    ).length;
+
+    const signupTrend: { month: string; count: number }[] = [];
+    for (let index = 5; index >= 0; index -= 1) {
+      const start = new Date();
+      start.setUTCDate(1);
+      start.setUTCHours(0, 0, 0, 0);
+      start.setUTCMonth(start.getUTCMonth() - index);
+      const end = new Date(start);
+      end.setUTCMonth(end.getUTCMonth() + 1);
+      signupTrend.push({
+        month: start.toLocaleDateString("en-GB", { month: "short", timeZone: "UTC" }),
+        count: organizations.filter((o) => {
+          const created = new Date(o.created_at).getTime();
+          return created >= start.getTime() && created < end.getTime();
+        }).length,
+      });
+    }
+
+    const planDistribution = planRows.map((plan) => {
+      const subscribers = activeSubs.filter((s) => s.plan_id === plan.id).length;
+      return {
+        id: plan.id,
+        name: plan.name,
+        active: plan.active,
+        monthlyPrice: Number(plan.monthly_price),
+        subscribers,
+        revenue: subscribers * Number(plan.monthly_price),
+      };
+    });
 
     return {
       totalOrganizations: organizations.length,
@@ -45,13 +91,22 @@ export const getPlatformOverview = createServerFn({ method: "GET" })
       suspendedOrganizations: organizations.filter((o) => o.status === "suspended").length,
       deactivatedOrganizations: organizations.filter((o) => o.status === "deactivated").length,
       totalUsers: members.count ?? 0,
+      totalGuards: guards.count ?? 0,
+      totalSites: sites.count ?? 0,
+      openIncidents: incidents.count ?? 0,
       activeSubscriptions: activeSubs.length,
       trialingSubscriptions: subscriptions.filter((s) => s.status === "trialing").length,
+      trialsEndingSoon,
+      newLast30Days,
+      newPrevious30Days,
+      signupTrend,
+      planDistribution,
       mrr,
       outstanding,
-      currency: plans.data?.[0]?.currency_code ?? "LKR",
+      currency: planRows[0]?.currency_code ?? "LKR",
     };
   });
+
 
 export const listPlatformCompanies = createServerFn({ method: "GET" })
   .middleware([requireSupabaseAuth])
