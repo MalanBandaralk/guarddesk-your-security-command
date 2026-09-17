@@ -1,6 +1,6 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useQuery } from "@tanstack/react-query";
-import { Building2, CreditCard, Users, Wallet, AlertCircle, BadgeCheck, PauseCircle } from "lucide-react";
+import { Building2, CreditCard, Users, Wallet, AlertCircle, BadgeCheck, PauseCircle, TrendingUp, Activity } from "lucide-react";
 import { PageHeader } from "@/components/page-header";
 import { MetricCard } from "@/components/metric-card";
 import { LoadingState } from "@/components/page-state";
